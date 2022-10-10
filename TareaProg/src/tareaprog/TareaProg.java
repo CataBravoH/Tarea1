@@ -198,7 +198,7 @@ class Efectivo extends Pago{
 
     @Override
     public String toString() {
-        return super.toString()+"vuelto: " + vuelto;
+        return "Efectivo: "+ super.toString();
     }
     
     
@@ -208,11 +208,31 @@ class Transferencia extends Pago{
     private String banco;
     private String numCuenta;
 
-    
+    public Transferencia(String banco, String numCuenta, float monto, Date fecha, OrdenCompra OC) {
+        super(monto, fecha, OC);
+        this.banco = banco;
+        this.numCuenta = numCuenta;
+    }
 
+    public String getBanco() {
+        return banco;
+    }
+
+    public String getNumCuenta() {
+        return numCuenta;
+    }
+
+    public void setBanco(String banco) {
+        this.banco = banco;
+    }
+
+    public void setNumCuenta(String numCuenta) {
+        this.numCuenta = numCuenta;
+    }
+    
     @Override
     public String toString() {
-        return super.toString()+ "banco: " + banco + ", numCuenta: " + numCuenta;
+        return "Transferencia: " + super.toString()+ "banco: " + banco + ", numCuenta: " + numCuenta;
     }
     
 }
@@ -221,9 +241,33 @@ class Tarjeta extends Pago{
     private String tipo;
     private String numTransaccion;
 
-    public Tarjeta(String tipo, String numTransaccion) {
+    public Tarjeta(String tipo, String numTransaccion, float monto, Date fecha, OrdenCompra OC) {
+        super(monto, fecha, OC);
         this.tipo = tipo;
         this.numTransaccion = numTransaccion;
     }
+
+    public String getNumTransaccion() {
+        return numTransaccion;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setNumTransaccion(String numTransaccion) {
+        this.numTransaccion = numTransaccion;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    @Override
+    public String toString() {
+        return "Tarjeta:" + super.toString() + "tipo tarjeta: " + tipo + "Numero de Transaccion: " + numTransaccion;
+    }
+
+    
     
 }
