@@ -1,5 +1,6 @@
 package tareaprog;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class TareaProg {
@@ -12,6 +13,84 @@ public class TareaProg {
 class OrdenCompra{
     private Date fecha;
     private String estado;
+    private DetalleOrden[] detalleorden;
+    private Cliente cliente;
+    private ArrayList<Pago> pago;
+    
+    public OrdenCompra(DocTributario doctributario, DetalleOrden[] detalleorden, Cliente cliente, ArrayList<Pago> pago){
+        this.fecha = doctributario.getFecha();
+        this.estado = "Pendiente";
+        this.detalleorden = detalleorden;
+        this.cliente = cliente;
+        this.pago = pago;
+    }
+    public void verificarEstado(){
+        float aux = 0;
+        for(int i=0 ; i<detalleorden.length ; i++){
+            aux = aux + detalleorden[i].calcPrecio();
+        }
+        Pago aux1;
+        float monto = 0;
+        for(int i = 0; i<pago.size();++i){
+            aux1 = pago.get(i);
+            monto = monto + aux1.getMonto();
+        }
+        if(aux <= monto){
+            estado = "Pagado";
+        }else{
+            estado = "Pendiente";
+        }
+    }
+    public float calcPrecioSinIVA(){
+        float aux = 0;
+        for(int i=0 ; i<detalleorden.length ; i++){
+            aux = aux + detalleorden[i].calcPrecioSinIVA();
+        }
+        return aux;
+    }
+    public float calcIVA(){
+        float aux = 0;
+        for(int i=0 ; i<detalleorden.length ; i++){
+            aux = aux + detalleorden[i].calcIVA();
+        }
+        return aux;
+    }
+    public float calcPrecio(){
+        float aux = 0;
+        for(int i=0 ; i<detalleorden.length ; i++){
+            aux = aux + detalleorden[i].calcPrecio();
+        }
+        return aux;
+    }
+    public float calcPeso(){
+        float aux = 0;
+        for(int i=0 ; i<detalleorden.length ; i++){
+            aux = aux + detalleorden[i].calcPeso();
+        }
+        return aux;
+    }
+    public DetalleOrden[] getDetalleOrden(){
+        return detalleorden;
+    }
+    public ArrayList<Pago> getPago(){
+        return pago;
+    }
+    public Date getFecha(){
+        return fecha;
+    }
+    public String getEstado(){
+        return estado;
+    }
+    public void setFecha(Date fecha){
+        this.fecha = fecha;
+    }
+    public void setEstado(String estado){
+        this.estado = estado;
+    }
+    @Override
+    public String toString(){
+        return "Esta clase guarda:  -Fecha:"+fecha+" -Estado:"+estado+"  de la clase OrdenCompra";
+    }
     
     
     
@@ -93,16 +172,16 @@ class DetalleOrden{
         this.OC = OC;
     }
     public float calcPrecioSinIVA() {
-        return art.getPrecio() * cantidad;
+        return cantidad * art.getPrecio();
     }
     public float calcIVA() {
         return (art.getPrecio() * 0.19f) * cantidad;
     }
     public float calcPrecio() {
-        return this.calcPrecioSinIVA() + this.calcIVA();
+        return this.calcIVA() + this.calcPrecioSinIVA();
     }
     public float calcPeso() {
-        return art.getPeso() * cantidad;
+        return cantidad * art.getPeso();
     }
 
     public int getCantidad() {
@@ -125,7 +204,7 @@ class DetalleOrden{
     }
     @Override
     public String toString() {
-        return "Unidades: "+cantidad+"\n "+art.toString();
+        return "Unidades: "+cantidad + " " +art.toString();
     }
 }
 
