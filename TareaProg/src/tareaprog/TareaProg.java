@@ -84,6 +84,49 @@ class Direccion{
 
 class DetalleOrden{
     private int cantidad;
+    private Articulo art;
+    private OrdenCompra OC;
+
+    public DetalleOrden(int cantidad, Articulo art, OrdenCompra OC) {
+        this.cantidad = cantidad;
+        this.art = art;
+        this.OC = OC;
+    }
+    public float calcPrecioSinIVA() {
+        return art.getPrecio() * cantidad;
+    }
+    public float calcIVA() {
+        return (art.getPrecio() * 0.19f) * cantidad;
+    }
+    public float calcPrecio() {
+        return this.calcPrecioSinIVA() + this.calcIVA();
+    }
+    public float calcPeso() {
+        return art.getPeso() * cantidad;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+    public Articulo getArticulo() {
+        return art;
+    }
+    public OrdenCompra getOrden() {
+        return OC;
+    }
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+    public void setArticulo(Articulo articulo) {
+        this.art = articulo;
+    }
+    public void setOrden(OrdenCompra orden) {
+        this.OC = orden;
+    }
+    @Override
+    public String toString() {
+        return "Unidades: "+cantidad+"\n "+art.toString();
+    }
 }
 
 class Articulo{
