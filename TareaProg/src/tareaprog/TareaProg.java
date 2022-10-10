@@ -139,21 +139,47 @@ class Boleta extends DocTributario{}
 class Factura extends DocTributario{}
 
 class Pago{
-    private float monto;
+    float monto;
     private Date fecha;
+    OrdenCompra OC;
 
-    public Pago(float monto, Date fecha) {
+    public Pago(float monto, Date fecha, OrdenCompra OC) {
         this.monto = monto;
-        this.fecha = fecha;
+        this.OC = OC;
+        if (fecha == null)
+            this.fecha= new Date();
+        else
+            this.fecha = fecha;
     }
 
     public float getMonto() {
         return monto;
     }
 
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public OrdenCompra getOC() {
+        return OC;
+    }
+
+    public void setMonto(float monto) {
+        this.monto = monto;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public void setOC(OrdenCompra OC) {
+        this.OC = OC;
+    }
+    
+
     @Override
     public String toString() {
-        return "Pago{" + "monto:" + monto + ", fecha:" + fecha + '}';
+        return "Monto: " + monto + "Fecha: " + fecha;
     }
     
 }
@@ -161,12 +187,13 @@ class Pago{
 class Efectivo extends Pago{
     private float vuelto;
 
-    public Efectivo(float monto, Date fecha) {
-        super(monto, fecha);
-        vuelto=0;
+    public Efectivo(float vuelto, float monto, Date fecha, OrdenCompra OC) {
+        super(monto, fecha, OC);
+        this.vuelto = vuelto;
     }
-    public void calcDevolucion(float pago){
-        vuelto = super.getMonto() - pago;
+    
+    public float calcDevolucion(float pago){
+        return (this.monto > pago) ? (this.monto - pago) : 0;
     }
 
     @Override
@@ -181,11 +208,7 @@ class Transferencia extends Pago{
     private String banco;
     private String numCuenta;
 
-    public Transferencia(String banco, String numCuenta, float monto, Date fecha) {
-        super(monto, fecha);
-        this.banco = banco;
-        this.numCuenta = numCuenta;
-    }
+    
 
     @Override
     public String toString() {
