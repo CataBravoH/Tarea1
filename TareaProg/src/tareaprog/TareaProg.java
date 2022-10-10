@@ -6,6 +6,26 @@ import java.util.Date;
 public class TareaProg {
 
     public static void main(String[] args) {
+        Articulo art1 = new Articulo(1,"lente vogue","de piña",2000);
+        Articulo art2 = new Articulo(2,"lente ralph","lente mk",7000);
+        Articulo art3 = new Articulo(3,"lente rayban","lente armani",70000);
+        Articulo art4 = new Articulo(4,"lente gucci","lente arnette",300);
+        Articulo art5 = new Articulo(3,"lente polaroid","lente versage",5000);
+        
+        DetalleOrden det1 = new DetalleOrden(3, art1);
+        DetalleOrden det2 = new DetalleOrden(5, art2);
+        DetalleOrden det3 = new DetalleOrden(1, art3);
+        DetalleOrden det4 = new DetalleOrden(4, art4);
+        DetalleOrden det5 = new DetalleOrden(2, art5);
+        
+        Direccion adress1 = new Direccion(" direcion 23");
+        Direccion adress2 = new Direccion(" direccion 333");
+        
+        Cliente cataa = new Cliente("Catalina", "jaja");
+        Cliente caraaa = new Cliente("Catalin", "188");
+        cataa.setDireccion(adress1);
+        caraaa.setDireccion(adress2);
+        
         
     }
     
@@ -19,13 +39,13 @@ class OrdenCompra{
     
     public OrdenCompra(DocTributario doctributario, DetalleOrden[] detalleorden, Cliente cliente, ArrayList<Pago> pago){
         this.fecha = doctributario.getFecha();
-        this.estado = "Pendiente";
+        this.estado = "Por pagar";
         this.detalleorden = detalleorden;
         this.cliente = cliente;
         this.pago = pago;
     }
     public void verificarEstado(){
-        float aux = 0;
+        float aux = 0; 
         for(int i=0 ; i<detalleorden.length ; i++){
             aux = aux + detalleorden[i].calcPrecio();
         }
@@ -36,9 +56,9 @@ class OrdenCompra{
             monto = monto + aux1.getMonto();
         }
         if(aux <= monto){
-            estado = "Pagado";
+            estado = "Cancelado";
         }else{
-            estado = "Pendiente";
+            estado = "Por pagar";
         }
     }
     public float calcPrecioSinIVA(){
@@ -69,6 +89,7 @@ class OrdenCompra{
         }
         return aux;
     }
+    
     public DetalleOrden[] getDetalleOrden(){
         return detalleorden;
     }
@@ -89,11 +110,9 @@ class OrdenCompra{
     }
     @Override
     public String toString(){
-        return "Esta clase guarda:  -Fecha:"+fecha+" -Estado:"+estado+"  de la clase OrdenCompra";
+        return "Esta clase contiene:  *Fecha:"+fecha+"*Estado:"+estado+"  de la clase OrdenCompra";
     }
-    
-    
-    
+      
 }
 
 class Cliente{
@@ -101,10 +120,10 @@ class Cliente{
     private String rut;
     private Direccion direccion;
 
-    public Cliente(String nombre, String rut, Direccion direccion) {
+    public Cliente(String nombre, String rut ) {
         this.nombre = nombre;
         this.rut = rut;
-        this.direccion = direccion;
+        
     }
 
     public String getNombre() {
@@ -166,10 +185,10 @@ class DetalleOrden{
     private Articulo art;
     private OrdenCompra OC;
 
-    public DetalleOrden(int cantidad, Articulo art, OrdenCompra OC) {
+    public DetalleOrden(int cantidad, Articulo art) {
         this.cantidad = cantidad;
         this.art = art;
-        this.OC = OC;
+        
     }
     public float calcPrecioSinIVA() {
         return cantidad * art.getPrecio();
